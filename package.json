@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "fs-plus": "*",
-    "atom-linter": "^4.5.0",
+    "atom-linter": "^4.5.1",
     "atom-package-deps": "^4.0.1"
   },
   "devDependencies": {

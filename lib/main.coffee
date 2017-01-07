@@ -78,7 +78,9 @@ module.exports =
             @additionalArguments.split(' ')...
           ].filter((e) -> e)
           #console.log "command:", command, "cmd-params:", params
-          return helpers.exec(command, params, {cwd: cwd}).catch (output) ->
+          return helpers.exec(command, params, {cwd: cwd}).then (output) ->
+            return []
+          .catch (output) ->
             #console.log "stderr output:", output
             # test.prg(3) Error E0030  Syntax error "syntax error at '?'"
             # test.prg(8) Error E0020  Incomplete statement or unbalanced delim

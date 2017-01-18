@@ -84,7 +84,7 @@ module.exports =
             #console.log "stderr output:", output
             # test.prg(3) Error E0030  Syntax error "syntax error at '?'"
             # test.prg(8) Error E0020  Incomplete statement or unbalanced delim
-            regex = /([\w\.]+)\((\d+)\) (Error|Warning) ([\w\d]+) (.+)/g
+            regex = /([\w\.]+)\((\d+)\) (Error) ([\w\d]+) (.+)/g
             returnMessages = []
             #console.log 'output:', output
             while((match = regex.exec(output)) isnt null)
@@ -104,5 +104,26 @@ module.exports =
               #  range[0][0] = Math.min( range[0][0], textEditor.getLineCount()-1)
               #  range[1][0] = Math.min( range[1][0], textEditor.getLineCount()-1)
 
-            #console.log "return", returnMessages
+            # test.prg(13) Warning W0003  Variable 'NVAR' declared but not used in function 'MAIN(5)'
+            # test.prg(16) Warning W0001  Ambiguous reference 'SELF'
+            regex = /([\w\.]+)\((\d+)\) (Warning) ([\w\d]+) (.+) (\'(.*\((\d+)\))\'|.+)/g
+            while((match = regex.exec(output)) isnt null)
+              # helpers.rangeFromLineNumber(textEditor, match[2] - 1),
+              # "line count:", textEditor.getLineCount()
+              try
+                if(match[8])
+                   match[2]=match[8]
+
+                range = helpers.rangeFromLineNumber(textEditor, match[2] - 1)
+                returnMessages.push
+                  type: match[3]
+                  filePath: filePath
+                  range: range
+                  text: match[4] + ': ' + match[5] + ' ' + match[6]
+              catch e
+                console.log e
+              #finally
+              #  range[0][0] = Math.min( range[0][0], textEditor.getLineCount()-1)
+              #  range[1][0] = Math.min( range[1][0], textEditor.getLineCount()-1)
+
             returnMessages

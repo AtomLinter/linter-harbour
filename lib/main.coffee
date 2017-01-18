@@ -84,7 +84,7 @@ module.exports =
             #console.log "stderr output:", output
             # test.prg(3) Error E0030  Syntax error "syntax error at '?'"
             # test.prg(8) Error E0020  Incomplete statement or unbalanced delim
-            regex = /([\w\.]+)\((\d+)\) (Error|Warning) ([\w\d]+) (.+)/g
+            regex = /([\w\.]+)\((\d+)\) (Error) ([\w\d]+) (.+)/g
             returnMessages = []
             #console.log 'output:', output
             while((match = regex.exec(output)) isnt null)
@@ -98,6 +98,29 @@ module.exports =
                   filePath: filePath
                   range: range
                   text: match[4] + ': ' + match[5]
+              catch e
+                console.log e
+              #finally
+              #  range[0][0] = Math.min( range[0][0], textEditor.getLineCount()-1)
+              #  range[1][0] = Math.min( range[1][0], textEditor.getLineCount()-1)
+
+            regex = /([\w\.]+)\((\d+)\) (Warning) ([\w\d]+) (.+) (\'(.*\((\d+)\))\'|.+)/g
+            #console.log 'output:', output
+            while((match = regex.exec(output)) isnt null)
+              # console.log "match:a", match, "range",
+              # console.log(match[2],match[7])
+              # helpers.rangeFromLineNumber(textEditor, match[2] - 1),
+              # "line count:", textEditor.getLineCount()
+              try
+                if(match[8])
+                   match[2]=match[8]
+
+                range = helpers.rangeFromLineNumber(textEditor, match[2] - 1)
+                returnMessages.push
+                  type: match[3]
+                  filePath: filePath
+                  range: range
+                  text: match[4] + ': ' + match[5] + ' ' + match[6]
               catch e
                 console.log e
               #finally

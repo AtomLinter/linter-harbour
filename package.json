@@ -1,7 +1,7 @@
 {
   "name": "linter-harbour",
   "main": "./lib/main",
-  "version": "6.6.1",
+  "version": "6.6.2",
   "description": "Lint harbour on the fly, using harbour -n -s -w3 -es1 -q0",
   "repository": "https://github.com/AtomLinter/linter-harbour",
   "license": "MIT",

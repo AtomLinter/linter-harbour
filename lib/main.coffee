@@ -104,11 +104,10 @@ module.exports =
               #  range[0][0] = Math.min( range[0][0], textEditor.getLineCount()-1)
               #  range[1][0] = Math.min( range[1][0], textEditor.getLineCount()-1)
 
+            # test.prg(13) Warning W0003  Variable 'NVAR' declared but not used in function 'MAIN(5)'
+            # test.prg(16) Warning W0001  Ambiguous reference 'SELF'
             regex = /([\w\.]+)\((\d+)\) (Warning) ([\w\d]+) (.+) (\'(.*\((\d+)\))\'|.+)/g
-            #console.log 'output:', output
             while((match = regex.exec(output)) isnt null)
-              # console.log "match:a", match, "range",
-              # console.log(match[2],match[7])
               # helpers.rangeFromLineNumber(textEditor, match[2] - 1),
               # "line count:", textEditor.getLineCount()
               try
@@ -127,5 +126,4 @@ module.exports =
               #  range[0][0] = Math.min( range[0][0], textEditor.getLineCount()-1)
               #  range[1][0] = Math.min( range[1][0], textEditor.getLineCount()-1)
 
-            #console.log "return", returnMessages
             returnMessages

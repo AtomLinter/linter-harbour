@@ -92,7 +92,7 @@ module.exports =
               # helpers.rangeFromLineNumber(textEditor, match[2] - 1),
               # "line count:", textEditor.getLineCount()
               try
-                range = helpers.rangeFromLineNumber(textEditor, match[2] - 1)
+                range = helpers.generateRange(textEditor, match[2] - 1)
                 returnMessages.push
                   type: match[3]
                   filePath: filePath

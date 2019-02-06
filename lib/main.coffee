@@ -3,6 +3,8 @@
 path = require 'path'
 ExePath = require('./util/exepath')
 
+VALID_SEVERITY = ['error', 'warning', 'info']
+
 module.exports =
   config:
     additionalArguments:
@@ -15,6 +17,10 @@ module.exports =
       type: 'string'
       title: 'harbour compiler Executable'
       default: 'harbour'
+
+  _getSeverity: (givenSeverity) =>
+    severity = givenSeverity.toLowerCase();
+    return if severity not in VALID_SEVERITY then 'warning' else severity
 
   _testBin: ->
     title = 'linter-harbour: Unable to determine harbour version'
@@ -56,7 +62,7 @@ module.exports =
       name: 'harbour'
       grammarScopes: [ 'source.harbour' ]
       scope: 'file'
-      lintOnFly: yes
+      lintsOnChange: yes
       lint: (textEditor) =>
         filePath = textEditor.getPath()
         cwd = path.dirname(filePath)
@@ -83,12 +89,13 @@ module.exports =
             returnMessages = []
             while((match = regex.exec(output)) isnt null)
               try
-                range = helpers.generateRange(textEditor, match[2] - 1)
+                position = helpers.generateRange(textEditor, match[2] - 1)
                 returnMessages.push
-                  type: match[3]
-                  filePath: filePath
-                  range: range
-                  text: match[4] + ': ' + match[5]
+                  severity: _getSeverity(match[3])
+                  excerpt: match[4] + ': ' + match[5]
+                  loction:
+                    file: filePath
+                    position: position
               catch e
                 console.log e
             returnMessages

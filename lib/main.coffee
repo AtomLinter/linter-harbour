@@ -5,6 +5,10 @@ ExePath = require('./util/exepath')
 
 VALID_SEVERITY = ['error', 'warning', 'info']
 
+getSeverity = (givenSeverity) ->
+  severity = givenSeverity.toLowerCase()
+  return if severity not in VALID_SEVERITY then 'warning' else severity
+
 module.exports =
   config:
     additionalArguments:
@@ -17,10 +21,6 @@ module.exports =
       type: 'string'
       title: 'harbour compiler Executable'
       default: 'harbour'
-
-  _getSeverity: (givenSeverity) =>
-    severity = givenSeverity.toLowerCase();
-    return if severity not in VALID_SEVERITY then 'warning' else severity
 
   _testBin: ->
     title = 'linter-harbour: Unable to determine harbour version'
@@ -40,7 +40,7 @@ module.exports =
         atom.notifications.addError(title, {detail: message})
 
   activate: ->
-    require('atom-package-deps').install()
+    require('atom-package-deps').install('linter-harbour')
     .then ->
     console.log("All linter-harbour deps are installed :)")
 
@@ -79,7 +79,7 @@ module.exports =
             '-q0',
             @additionalArguments.split(' ')...
           ].filter((e) -> e)
-          return helpers.exec(command, params, {cwd: cwd}).then (output) ->
+          return helpers.exec(command, params, { cwd: cwd }).then (output) ->
             return []
           .catch (output) ->
             #console.log "stderr output:", output
@@ -89,13 +89,12 @@ module.exports =
             returnMessages = []
             while((match = regex.exec(output)) isnt null)
               try
-                position = helpers.generateRange(textEditor, match[2] - 1)
                 returnMessages.push
-                  severity: _getSeverity(match[3])
+                  severity: getSeverity(match[3])
                   excerpt: match[4] + ': ' + match[5]
-                  loction:
+                  location:
                     file: filePath
-                    position: position
+                    position: helpers.generateRange(textEditor, match[2] - 1)
               catch e
                 console.log e
             returnMessages

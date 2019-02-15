@@ -24,6 +24,9 @@
       }
     }
   },
+  "scripts": {
+    "lint": "coffeelint ."
+  },
   "renovate": {
     "extends": [
       "config:base"

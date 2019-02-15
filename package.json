@@ -2,6 +2,7 @@
   "name": "linter-harbour",
   "main": "./lib/main",
   "version": "7.0.3",
+  "private": true,
   "description": "Lint harbour on the fly, using harbour -n -s -w3 -es1 -q0",
   "repository": "git@github.com:AtomLinter/linter-harbour.git",
   "license": "MIT",
@@ -22,6 +23,21 @@
         "2.0.0": "provideLinter"
       }
     }
+  },
+  "renovate": {
+    "extends": [
+      "config:base"
+    ],
+    "semanticCommits": true,
+    "rangeStrategy": "pin",
+    "packageRules": [
+      {
+        "packagePatterns": [
+          "^eslint"
+        ],
+        "groupName": "ESLint packages"
+      }
+    ]
   },
   "coffeelintConfig": {
     "max_line_length": {

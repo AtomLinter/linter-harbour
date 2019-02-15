@@ -79,7 +79,7 @@ module.exports =
             '-q0',
             @additionalArguments.split(' ')...
           ].filter((e) -> e)
-          return helpers.exec(command, params, { cwd: cwd }).then (output) ->
+          return helpers.exec(command, params, {cwd: cwd}).then (output) ->
             return []
           .catch (output) ->
             #console.log "stderr output:", output

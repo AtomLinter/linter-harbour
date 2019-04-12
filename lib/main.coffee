@@ -85,7 +85,7 @@ module.exports =
             #console.log "stderr output:", output
             # test.prg(3) Error E0030  Syntax error "syntax error at '?'"
             # test.prg(8) Error E0020  Incomplete statement or unbalanced delim
-            regex = /([\w\.]+)\((\d+)\) (Error|Warning) ([\w\d]+) (.+)/g
+            regex = /([\w\.]+)\((\d+)\) (Error|Warning) ([\w\d]+) (.+)\((\d+)\)/g
             returnMessages = []
             while((match = regex.exec(output)) isnt null)
               try
@@ -94,7 +94,7 @@ module.exports =
                   excerpt: match[4] + ': ' + match[5]
                   location:
                     file: filePath
-                    position: helpers.generateRange(textEditor, match[2] - 1)
+                    position: helpers.generateRange(textEditor, match[6] - 1 )
               catch e
                 console.log e
             returnMessages

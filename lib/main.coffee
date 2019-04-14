@@ -92,7 +92,7 @@ module.exports =
 
                 matchLine = match[5].match(/\((\d+)\)/)
                 if matchLine
-                  range = helpers.generateRange( textEditor, matchLine[1] - 1 )
+                  range = helpers.generateRange(textEditor, Number.parseInt(matchLine[1], 10) - 1)
                 else
                   range = helpers.generateRange( textEditor, match[2] - 1 )
 

@@ -94,7 +94,7 @@ module.exports =
                 if matchLine
                   range = helpers.generateRange(textEditor, Number.parseInt(matchLine[1], 10) - 1)
                 else
-                  range = helpers.generateRange( textEditor, match[2] - 1 )
+                  range = helpers.generateRange(textEditor, Number.parseInt(match[2], 10) - 1)
 
                 returnMessages.push
                   severity: getSeverity(match[3])

@@ -90,7 +90,7 @@ module.exports =
             while((match = regex.exec(output)) isnt null)
               try
 
-                matchLine = match[5].match(/\(([^)]+)\)/)
+                matchLine = match[5].match(/\((\d+)\)/)
                 if matchLine
                   range = helpers.generateRange( textEditor, matchLine[1] - 1 )
                 else

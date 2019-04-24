@@ -89,12 +89,19 @@ module.exports =
             returnMessages = []
             while((match = regex.exec(output)) isnt null)
               try
+
+                matchLine = match[5].match(/\((\d+)\)/)
+                if matchLine
+                  range = helpers.generateRange(textEditor, Number.parseInt(matchLine[1], 10) - 1)
+                else
+                  range = helpers.generateRange(textEditor, Number.parseInt(match[2], 10) - 1)
+
                 returnMessages.push
                   severity: getSeverity(match[3])
                   excerpt: match[4] + ': ' + match[5]
                   location:
                     file: filePath
-                    position: helpers.generateRange(textEditor, match[2] - 1)
+                    position: range
               catch e
                 console.log e
             returnMessages
